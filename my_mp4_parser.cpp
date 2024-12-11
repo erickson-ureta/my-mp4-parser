@@ -3,6 +3,7 @@
 
 #include "log.hpp"
 #include "my_mp4_parser.hpp"
+#include "buffer_utils.hpp"
 
 Logger logger;
 
@@ -59,7 +60,8 @@ Mp4Parser::_isValidMp4File()
         return false;
     }
 
-    logger.info("File %s buffer size: %zu", _mFileName.c_str(), _mBuffer.size());
+    size_t atomSize = BufferUtils::read4BytesIntoU32(_mBuffer.cbegin());
+    logger.info("atomSize = %zu", atomSize);
 
     return true;
 }
