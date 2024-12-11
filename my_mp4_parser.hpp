@@ -18,5 +18,5 @@ class Mp4Parser
 
         // Helper methods
         bool _loadFile(const std::string& fileName);
-        bool _isValidMp4File(const std::string& fileName);
+        bool _isValidMp4File();
 };

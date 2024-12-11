@@ -12,12 +12,12 @@ Mp4Parser::Mp4Parser(const std::string& fileName)
 bool
 Mp4Parser::parseMp4File()
 {
-    logger.info("Analyzing file: %s", _mFileName);
+    logger.info("Analyzing file: %s", _mFileName.c_str());
     if (!_loadFile(_mFileName))
     {
         return false;
     }
-    if (!_isValidMp4File(_mFileName))
+    if (!_isValidMp4File())
     {
         return false;
     }
@@ -31,7 +31,7 @@ Mp4Parser::_loadFile(const std::string& fileName)
     std::ifstream file(fileName, std::ios::binary);
     if (!file)
     {
-        logger.error("Failed to open file: %s", fileName);
+        logger.error("Failed to open file: %s", fileName.c_str());
         return false;
     }
 
@@ -43,7 +43,7 @@ Mp4Parser::_loadFile(const std::string& fileName)
 
     if (!file.read(reinterpret_cast<char *>(_mBuffer.data()), size))
     {
-        logger.error("Failed to open file: %s", fileName);
+        logger.error("Failed to open file: %s", fileName.c_str());
         return false;
     }
 
@@ -51,9 +51,16 @@ Mp4Parser::_loadFile(const std::string& fileName)
 }
 
 bool
-Mp4Parser::_isValidMp4File(const std::string& fileName)
+Mp4Parser::_isValidMp4File()
 {
-    (void) fileName;
+    if (!_mBuffer.size())
+    {
+        logger.error("File is empty: %s", _mFileName.c_str());
+        return false;
+    }
+
+    logger.info("File %s buffer size: %zu", _mFileName.c_str(), _mBuffer.size());
+
     return true;
 }
 

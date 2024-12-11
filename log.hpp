@@ -8,7 +8,7 @@
 #include <type_traits>
 
 template<typename ... Args>
-std::string string_format_impl(const std::string& format, Args ... args)
+std::string string_format(const std::string& format, Args ... args)
 {
     // Shamelessly copied from a StackOverflow post
 
@@ -24,18 +24,6 @@ std::string string_format_impl(const std::string& format, Args ... args)
     std::snprintf(buf.get(), size, format.c_str(), args...);
 
     return std::string(buf.get(), buf.get() + size - 1); // We don't want the '\0' inside
-}
-
-template<typename ... Args>
-std::string string_format(const std::string& format, Args ... args)
-{
-    // Convert args to c_str() where needed
-    auto convert_to_c_str = [](const auto& arg) -> const char* {
-		return arg.c_str();
-    };
-	(void) convert_to_c_str; // Silence unused variable warning
-
-    return string_format_impl(format, convert_to_c_str(args)...);
 }
 
 enum class LoggerLevel
