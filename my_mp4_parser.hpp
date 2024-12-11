@@ -8,10 +8,14 @@ class Mp4Parser
 {
     public:
         Mp4Parser(const std::string fileName);
+
+        bool parseMp4File();
+
     private:
         // Members
         const std::string _mFileName;
         std::vector<uint8_t> _mBuffer;
+
         // Helper methods
         static bool _isValidMp4File(const std::string file);
 };
