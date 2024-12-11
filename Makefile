@@ -2,7 +2,7 @@
 
 CXXFLAGS=-Wall -Wextra
 
-my_mp4_parser: my_mp4_parser.o
+my_mp4_parser: my_mp4_parser.o log.hpp
 	g++ -o my_mp4_parser my_mp4_parser.o
 
 my_mp4_parser.o: my_mp4_parser.cpp my_mp4_parser.hpp
