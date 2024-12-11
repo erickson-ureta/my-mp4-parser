@@ -2,8 +2,11 @@
 
 #include "my_mp4_parser.hpp"
 
+Mp4Parser::Mp4Parser(const std::string fileName)
+    : _mFileName(fileName) {}
+
 bool
-isValidMp4File(const std::string &file)
+Mp4Parser::_isValidMp4File(const std::string file)
 {
     (void) file;
     return true;
