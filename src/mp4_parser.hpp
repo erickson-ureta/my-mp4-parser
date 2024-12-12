@@ -6,8 +6,6 @@
 
 #include "constants.hpp"
 
-using AtomBufPtr = std::vector<uint8_t>::const_iterator;
-
 class Mp4Parser
 {
     public:
@@ -22,11 +20,13 @@ class Mp4Parser
 
         // Helper methods
         bool _loadFile(const std::string& fileName);
-        std::string _getAtomName(const AtomBufPtr &atomBuf);
+        std::string _getAtomName(const uint8_t *buf);
         bool _isValidMp4File();
 
+        void _loopThroughAtoms(const uint8_t *buf, const size_t buf_size);
+
         // List of known atom names
-        const std::vector<std::string> _knownAtomNames = {
+        const std::vector<std::string> _mKnownAtomNames = {
             ATOM_FTYP, ATOM_PDIN, ATOM_MOOV, ATOM_MVHD, ATOM_META, ATOM_TRAK,
             ATOM_TKHD, ATOM_TREF, ATOM_EDTS, ATOM_ELST, ATOM_MDIA, ATOM_MDHD,
             ATOM_HDLR, ATOM_ELNG, ATOM_MINF, ATOM_VMHD, ATOM_SMHD, ATOM_HMHD,

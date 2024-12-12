@@ -6,8 +6,6 @@
 
 namespace BufferUtils
 {
-
-uint32_t read4BytesIntoU32(const std::vector<uint8_t>::const_iterator buf);
-std::string readBytesIntoStr(const std::vector<uint8_t>::const_iterator buf, const size_t &len);
-
+    uint32_t read4BytesIntoU32(const uint8_t *buf);
+    std::string readBytesIntoStr(const uint8_t *buf, const size_t &len);
 }

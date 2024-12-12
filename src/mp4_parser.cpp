@@ -24,6 +24,8 @@ Mp4Parser::parseMp4File()
         return false;
     }
 
+    _loopThroughAtoms(_mBuffer.data(), _mBuffer.size());
+
     return true;
 }
 
@@ -39,14 +41,24 @@ Mp4Parser::_loadFile(const std::string& fileName)
 
     _mBuffer.resize(size);
 
-    return static_cast<bool>(file.read(reinterpret_cast<char *>(_mBuffer.data()), size));
+    if (!file.read(reinterpret_cast<char *>(_mBuffer.data()), size))
+    {
+        return false;
+    }
+
+    return true;
 }
 
 std::string
-Mp4Parser::_getAtomName(const AtomBufPtr &atomBuf)
+Mp4Parser::_getAtomName(const uint8_t *buf)
 {
-    return BufferUtils::readBytesIntoStr(atomBuf + ATOM_NAME_OFFSET,
+    return BufferUtils::readBytesIntoStr(buf + ATOM_NAME_OFFSET,
                                          ATOM_NAME_LEN);
+}
+
+void
+Mp4Parser::_loopThroughAtoms(const uint8_t *buf, const size_t buf_size)
+{
 }
 
 bool
@@ -54,8 +66,8 @@ Mp4Parser::_isValidMp4File()
 {
     if (!_mBuffer.size()) return false;
 
-    std::string firstAtomName = _getAtomName(_mBuffer.cbegin());
-    auto it = std::find(_knownAtomNames.begin(), _knownAtomNames.end(), firstAtomName);
+    std::string firstAtomName = _getAtomName(_mBuffer.data());
+    auto it = std::find(_mKnownAtomNames.begin(), _mKnownAtomNames.end(), firstAtomName);
 
-    return it != _knownAtomNames.end();
+    return it != _mKnownAtomNames.end();
 }
