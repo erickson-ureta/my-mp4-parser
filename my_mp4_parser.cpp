@@ -60,8 +60,8 @@ Mp4Parser::_isValidMp4File()
         return false;
     }
 
-    size_t atomSize = BufferUtils::read4BytesIntoU32(_mBuffer.cbegin());
-    logger.info("atomSize = %zu", atomSize);
+    std::string atomName = BufferUtils::readBytesIntoStr(_mBuffer.cbegin() + 4, 4);
+    logger.info("atomName = %s", atomName.c_str());
 
     return true;
 }
