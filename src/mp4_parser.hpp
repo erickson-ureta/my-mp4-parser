@@ -22,8 +22,9 @@ class Mp4Parser
         bool _loadFile(const std::string& fileName);
         std::string _getAtomName(const uint8_t *buf);
         bool _isValidMp4File();
-
-        void _loopThroughAtoms(const uint8_t *buf, const size_t buf_size);
+        std::string _generateIndentStr(const unsigned int &recurseLevel);
+        void _loopThroughAtoms(uint8_t *buf, const size_t bufSize,
+                               const unsigned int &recurseLevel);
 
         // List of known atom names
         const std::vector<std::string> _mKnownAtomNames = {

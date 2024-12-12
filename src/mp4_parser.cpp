@@ -1,6 +1,9 @@
+#include <algorithm>
 #include <fstream>
 #include <iostream>
-#include <algorithm>
+#include <sstream>
+
+#include <unistd.h>
 
 #include "constants.hpp"
 #include "logger.hpp"
@@ -24,7 +27,7 @@ Mp4Parser::parseMp4File()
         return false;
     }
 
-    _loopThroughAtoms(_mBuffer.data(), _mBuffer.size());
+    _loopThroughAtoms(_mBuffer.data(), _mBuffer.size(), 0);
 
     return true;
 }
@@ -56,9 +59,47 @@ Mp4Parser::_getAtomName(const uint8_t *buf)
                                          ATOM_NAME_LEN);
 }
 
-void
-Mp4Parser::_loopThroughAtoms(const uint8_t *buf, const size_t buf_size)
+std::string
+Mp4Parser::_generateIndentStr(const unsigned int &recurseLevel)
 {
+    std::stringstream ss;
+    for (auto i = 0; i < recurseLevel; i++)
+    {
+        ss << "  ";
+    }
+
+    return ss.str();
+}
+
+void
+Mp4Parser::_loopThroughAtoms(uint8_t *buf, const size_t bufSize,
+                             const unsigned int &recurseLevel)
+{
+    uint8_t *cursor = buf;
+    size_t cursorPos = 0;
+    while (cursorPos < bufSize)
+    {
+        Logger::get().info("cursor_pos = %zu", cursorPos);
+
+        size_t atomSize = static_cast<size_t>(BufferUtils::read4BytesIntoU32(cursor));
+        std::string atomName = _getAtomName(cursor);
+        std::string indent = _generateIndentStr(recurseLevel);
+        Logger::get().info("%s[%s] (%zu bytes)", indent.c_str(), atomName.c_str(), atomSize);
+
+        usleep(100000);
+
+        // TODO: process atom here
+        bool atomHasChildren = true;
+        bool atomChildrenOffset = 8;
+
+        if (atomHasChildren)
+        {
+            _loopThroughAtoms(cursor+atomChildrenOffset, atomSize, recurseLevel+1);
+        }
+
+        cursor += atomSize;
+        cursorPos += atomSize;
+    }
 }
 
 bool
