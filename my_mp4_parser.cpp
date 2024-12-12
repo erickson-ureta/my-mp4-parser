@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 
+#include "constants.hpp"
 #include "log.hpp"
 #include "my_mp4_parser.hpp"
 #include "buffer_utils.hpp"
@@ -51,6 +52,13 @@ Mp4Parser::_loadFile(const std::string& fileName)
     return true;
 }
 
+std::string
+Mp4Parser::_getAtomName(const AtomBufPtr &atom)
+{
+    return BufferUtils::readBytesIntoStr(_mBuffer.cbegin()+ATOM_NAME_OFFSET,
+                                         ATOM_NAME_LEN);
+}
+
 bool
 Mp4Parser::_isValidMp4File()
 {
@@ -60,8 +68,7 @@ Mp4Parser::_isValidMp4File()
         return false;
     }
 
-    std::string atomName = BufferUtils::readBytesIntoStr(_mBuffer.cbegin() + 4, 4);
-    logger.info("atomName = %s", atomName.c_str());
+    std::string firstAtomName = _getAtomName(_mBuffer.cbegin());
 
     return true;
 }

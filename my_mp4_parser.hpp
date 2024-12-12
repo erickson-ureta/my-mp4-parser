@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+using AtomBufPtr = std::vector<uint8_t>::const_iterator;
+
 class Mp4Parser
 {
     public:
@@ -18,5 +20,6 @@ class Mp4Parser
 
         // Helper methods
         bool _loadFile(const std::string& fileName);
+        std::string _getAtomName(const AtomBufPtr &atom);
         bool _isValidMp4File();
 };
