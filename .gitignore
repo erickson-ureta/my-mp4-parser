@@ -2,3 +2,4 @@ my_mp4_parser
 *.swp
 *.o
 mp4dump.txt
+build
