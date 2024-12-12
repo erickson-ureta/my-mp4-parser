@@ -36,7 +36,13 @@ enum class LoggerLevel
 class Logger
 {
     public:
-        Logger() : _mLogLevel(LoggerLevel::INFO) {}
+        // Singleton pattern here
+        Logger(const Logger&) = delete;
+        Logger& operator=(const Logger&) = delete;
+
+        static Logger& get();
+
+        void setLogLevel(const LoggerLevel& logLevel);
 
         template <typename ... Args>
         void error(const std::string &fmt, Args ... args)
@@ -62,11 +68,11 @@ class Logger
             std::cout << "[DEBUG]: " << string_format(fmt, args...) << std::endl;
         }
 
-        void setLogLevel(const LoggerLevel& logLevel)
-        {
-            _mLogLevel = logLevel;
-        }
-
     private:
         LoggerLevel _mLogLevel = LoggerLevel::INFO;
+
+        static Logger _inst;
+
+        // Private constructor for singleton
+        Logger();
 };

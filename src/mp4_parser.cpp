@@ -3,11 +3,9 @@
 #include <algorithm>
 
 #include "constants.hpp"
-#include "log.hpp"
-#include "my_mp4_parser.hpp"
+#include "logger.hpp"
+#include "mp4_parser.hpp"
 #include "buffer_utils.hpp"
-
-Logger logger;
 
 Mp4Parser::Mp4Parser(const std::string& fileName)
     : _mFileName(fileName) {}
@@ -17,12 +15,12 @@ Mp4Parser::parseMp4File()
 {
     if (!_loadFile(_mFileName))
     {
-        logger.error("Failed to open file: %s", _mFileName.c_str());
+        Logger::get().error("Failed to open file: %s", _mFileName.c_str());
         return false;
     }
     if (!_isValidMp4File())
     {
-        logger.error("File is not a valid MP4 file: %s", _mFileName.c_str());
+        Logger::get().error("File is not a valid MP4 file: %s", _mFileName.c_str());
         return false;
     }
 
@@ -60,26 +58,4 @@ Mp4Parser::_isValidMp4File()
     auto it = std::find(_knownAtomNames.begin(), _knownAtomNames.end(), firstAtomName);
 
     return it != _knownAtomNames.end();
-}
-
-int
-main(int argc, char **argv)
-{
-    if (argc <= 1)
-    {
-        logger.error("No input files specified.");
-        logger.error("usage: ./%s <file1.mp4> <file2.mp4> ... <fileN.mp4>",
-                     argv[0]);
-        return 1;
-    }
-
-    for (int i = 1; i < argc; i++)
-    {
-        logger.info("----");
-        logger.info("Analyzing file: %s", argv[i]);
-        Mp4Parser parser(argv[i]);
-        parser.parseMp4File();
-    }
-
-    return 0;
 }
