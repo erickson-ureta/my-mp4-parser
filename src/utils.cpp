@@ -34,3 +34,15 @@ BufferUtils::readBytesIntoStr(const uint8_t *buf, const size_t &len)
 
     return ss.str();
 }
+
+std::string
+BufferUtils::u32BytesIntoStr(const unsigned int value)
+{
+    char chars[4];
+    chars[0] = static_cast<char>((value >> 24) & 0xFF);
+    chars[1] = static_cast<char>((value >> 16) & 0xFF);
+    chars[2] = static_cast<char>((value >> 8) & 0xFF);
+    chars[3] = static_cast<char>(value & 0xFF);
+
+    return std::string(chars);
+}

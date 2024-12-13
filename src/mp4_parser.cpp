@@ -91,7 +91,9 @@ Mp4Parser::_loopThroughAtoms(uint8_t *buf, const size_t bufSize,
         std::shared_ptr<GenericAtom> atom = _createAtomFromBuf(cursor, atomSize);
         if (atom)
         {
+            atom->setLogIndentLevel(recurseLevel);
             atom->debugPrint();
+
             bool atomHasChildren = true;
             bool atomChildrenOffset = 8;
 

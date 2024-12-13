@@ -2,10 +2,13 @@
 
 #include <cstdint>
 #include <string>
+#include <sstream>
 #include <vector>
 
 #include "atoms.hpp"
 #include "constants.hpp"
+#include "logger.hpp"
+#include "utils.hpp"
 
 class GenericAtom
 {
@@ -35,21 +38,37 @@ class GenericAtom
             return _mChildrenOffset;
         }
 
-        virtual void debugPrint(const unsigned int indentLevel = 0) = 0;
+        void setLogIndentLevel(const unsigned int indentLevel)
+        {
+            _mLogIndentLevel = indentLevel;
+        }
+
+        virtual void debugPrint() = 0;
 
     protected:
         // Common fields across all atoms
         uint8_t version;
         // TODO: figure out what to do with the "flags" field later
 
-        // Metadata stuff
+        // Metadata stuff fields
         const std::string _mAtomName;
         size_t _mSize;
         bool _mHasChildren = false;
         size_t _mChildrenOffset = 0;
         uint8_t *_mRawBuffer;
+        unsigned int _mLogIndentLevel = 0;
 
         virtual void _parseRawBufIntoFields() = 0;
+        template <typename ... Args>
+        void _indentLog(const std::string &fmt, Args ... args)
+        {
+            std::string indentStr = BufferUtils::generateIndentStr(_mLogIndentLevel);
+
+            std::stringstream ss;
+            ss << indentStr << fmt;
+
+            Logger::get().info(ss.str(), args ...);
+        }
 };
 
 class FtypAtom : public GenericAtom
@@ -61,7 +80,7 @@ class FtypAtom : public GenericAtom
             _parseRawBufIntoFields();
         }
 
-        void debugPrint(const unsigned int indentLevel = 0) override;
+        void debugPrint() override;
 
     protected:
         uint32_t _mMajorBrand;
