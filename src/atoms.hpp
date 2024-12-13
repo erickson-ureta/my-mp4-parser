@@ -90,4 +90,3 @@ class FtypAtom : public GenericAtom
 
         void _parseRawBufIntoFields() override;
 };
-
