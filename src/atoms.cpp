@@ -7,7 +7,6 @@
 void
 FtypAtom::_parseRawBufIntoFields()
 {
-    Logger::get().info("--- HELLO WORLD! ---");
     uint8_t *cursor = _mRawBuffer;
 
     _mMajorBrand = BufferUtils::read4BytesIntoU32(cursor);

@@ -8,7 +8,6 @@ AtomFactory::createAtom(const std::string &atomName, uint8_t *buf, size_t bufSiz
 {
     if (atomName == ATOM_FTYP)
     {
-        Logger::get().info("Generating ftyp atom");
         return std::make_shared<FtypAtom>(bufSize, buf);
     }
 

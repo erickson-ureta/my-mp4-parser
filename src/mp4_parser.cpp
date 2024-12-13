@@ -103,16 +103,19 @@ Mp4Parser::_loopThroughAtoms(uint8_t *buf, const size_t bufSize,
         usleep(200000);
 
         std::shared_ptr<GenericAtom> atom = _createAtomFromBuf(cursor, atomSize);
-        atom->debugPrint();
-        bool atomHasChildren = true;
-        bool atomChildrenOffset = 8;
-
-        if (atom->hasChildren())
+        if (atom)
         {
-            size_t childrenOffset = atom->getChildrenOffset();
-            _loopThroughAtoms(cursor + childrenOffset,
-                              atomSize,
-                              recurseLevel + 1);
+            atom->debugPrint();
+            bool atomHasChildren = true;
+            bool atomChildrenOffset = 8;
+
+            if (atom->hasChildren())
+            {
+                size_t childrenOffset = atom->getChildrenOffset();
+                _loopThroughAtoms(cursor + childrenOffset,
+                                  atomSize,
+                                  recurseLevel + 1);
+            }
         }
 
         cursor += atomSize;
