@@ -14,7 +14,9 @@ AtomFactory::createAtom(const std::string &atomName, uint8_t *buf, size_t bufSiz
 {
     static const std::unordered_map<std::string, AtomGenerator> atomFactoryMap = {
         {ATOM_FTYP, [](size_t size, uint8_t *rawBuffer){ return std::make_shared<FtypAtom>(size, rawBuffer); }},
-        {ATOM_MOOV, [](size_t size, uint8_t *rawBuffer){ return std::make_shared<MoovAtom>(size, rawBuffer); }}
+        {ATOM_FREE, [](size_t size, uint8_t *rawBuffer){ return std::make_shared<FreeAtom>(size, rawBuffer); }},
+        {ATOM_MDAT, [](size_t size, uint8_t *rawBuffer){ return std::make_shared<MdatAtom>(size, rawBuffer); }},
+        {ATOM_MOOV, [](size_t size, uint8_t *rawBuffer){ return std::make_shared<MoovAtom>(size, rawBuffer); }},
     };
 
     auto it = atomFactoryMap.find(atomName);
