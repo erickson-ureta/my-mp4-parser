@@ -37,3 +37,10 @@ FtypAtom::debugPrint()
         _indentLog("    %s", Utils::u32BytesIntoStr(i).c_str());
     }
 }
+
+void
+MoovAtom::_parseRawBufIntoFields()
+{
+    _mHasChildren = true;
+    _mChildrenOffset = 8;
+}

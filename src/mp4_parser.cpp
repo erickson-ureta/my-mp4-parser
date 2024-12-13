@@ -77,16 +77,17 @@ void
 Mp4Parser::_loopThroughAtoms(uint8_t *buf, const size_t bufSize,
                              const unsigned int &recurseLevel)
 {
+    std::string indent = Utils::generateIndentStr(recurseLevel);
+
     uint8_t *cursor = buf;
     size_t cursorPos = 0;
+
     while (cursorPos < bufSize)
     {
         size_t atomSize = static_cast<size_t>(Utils::read4BytesIntoU32(cursor));
         std::string atomName = _getAtomName(cursor);
-        std::string indent = Utils::generateIndentStr(recurseLevel);
-        Logger::get().info("%s[%s] (%zu bytes)", indent.c_str(), atomName.c_str(), atomSize);
 
-        usleep(200000);
+        Logger::get().info("%s[%s] (%zu bytes)", indent.c_str(), atomName.c_str(), atomSize);
 
         std::shared_ptr<GenericAtom> atom = _createAtomFromBuf(cursor, atomSize);
         if (atom)
@@ -94,16 +95,17 @@ Mp4Parser::_loopThroughAtoms(uint8_t *buf, const size_t bufSize,
             atom->setLogIndentLevel(recurseLevel);
             atom->debugPrint();
 
-            bool atomHasChildren = true;
-            bool atomChildrenOffset = 8;
-
             if (atom->hasChildren())
             {
                 size_t childrenOffset = atom->getChildrenOffset();
                 _loopThroughAtoms(cursor + childrenOffset,
-                                  atomSize,
+                                  atomSize - childrenOffset,
                                   recurseLevel + 1);
             }
+        }
+        else
+        {
+            Logger::get().info("%s  (atom not recognized or not yet implemented)", indent.c_str());
         }
 
         cursor += atomSize;

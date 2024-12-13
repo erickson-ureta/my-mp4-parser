@@ -14,7 +14,7 @@ fi
 pushd ${BUILDDIR} || print_err_and_exit "Can't find build directory"
 
 if [ ! -d "${PWD}/CMakeFiles" ]; then
-    cmake .. || print_err_and_exit "CMake was unable to generate build files"
+    cmake -DCMAKE_BUILD_TYPE=Debug .. || print_err_and_exit "CMake was unable to generate build files"
 fi
 
 make || print_err_and_exit "Unable to build project"

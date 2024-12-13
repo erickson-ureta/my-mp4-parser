@@ -13,7 +13,8 @@ std::shared_ptr<GenericAtom>
 AtomFactory::createAtom(const std::string &atomName, uint8_t *buf, size_t bufSize)
 {
     static const std::unordered_map<std::string, AtomGenerator> atomFactoryMap = {
-        {ATOM_FTYP, [](size_t size, uint8_t *rawBuffer){ return std::make_shared<FtypAtom>(size, rawBuffer); }}
+        {ATOM_FTYP, [](size_t size, uint8_t *rawBuffer){ return std::make_shared<FtypAtom>(size, rawBuffer); }},
+        {ATOM_MOOV, [](size_t size, uint8_t *rawBuffer){ return std::make_shared<MoovAtom>(size, rawBuffer); }}
     };
 
     auto it = atomFactoryMap.find(atomName);

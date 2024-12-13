@@ -44,7 +44,7 @@ class GenericAtom
             _mLogIndentLevel = indentLevel;
         }
 
-        virtual void debugPrint() = 0;
+        virtual void debugPrint() {}
 
     protected:
         // Common fields across all atoms
@@ -52,14 +52,13 @@ class GenericAtom
         // TODO: figure out what to do with the "flags" field later
 
         // Metadata stuff fields
-        const std::string _mAtomName;
+        const std::string _mAtomName = "";
         size_t _mSize;
         bool _mHasChildren = false;
-        size_t _mChildrenOffset = 0;
+        size_t _mChildrenOffset = ATOM_NAME_OFFSET + ATOM_NAME_LEN;
         std::vector<uint8_t> _mRawBuffer;
         unsigned int _mLogIndentLevel = 0;
 
-        virtual void _parseRawBufIntoFields() = 0;
         template <typename ... Args>
         void _indentLog(const std::string &fmt, Args ... args)
         {
@@ -81,12 +80,25 @@ class FtypAtom : public GenericAtom
             _parseRawBufIntoFields();
         }
 
-        void debugPrint() override;
+        void debugPrint();
 
     protected:
         uint32_t _mMajorBrand;
         uint32_t _mMinorVersion;
         std::vector<uint32_t> _mCompatibleBrands;
 
-        void _parseRawBufIntoFields() override;
+        void _parseRawBufIntoFields();
+};
+
+class MoovAtom : public GenericAtom
+{
+    public:
+        MoovAtom(size_t size, uint8_t *rawBuffer)
+            : GenericAtom(ATOM_MOOV, size, rawBuffer)
+        {
+            _parseRawBufIntoFields();
+        }
+
+    protected:
+        void _parseRawBufIntoFields();
 };
