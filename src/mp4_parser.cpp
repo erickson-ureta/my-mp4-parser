@@ -5,6 +5,7 @@
 
 #include <unistd.h>
 
+#include "atom_factory.hpp"
 #include "constants.hpp"
 #include "logger.hpp"
 #include "mp4_parser.hpp"
@@ -80,11 +81,8 @@ Mp4Parser::_createAtomFromBuf(uint8_t *buf, size_t bufSize)
     }
 
     std::string atomName = _getAtomName(buf);
-    //switch (atomName)
-    //{
-    //}
 
-    return nullptr;
+    return AtomFactory::createAtom(atomName, buf, bufSize);
 }
 
 void
@@ -104,14 +102,17 @@ Mp4Parser::_loopThroughAtoms(uint8_t *buf, const size_t bufSize,
 
         usleep(200000);
 
-        // TODO: process atom here
         std::shared_ptr<GenericAtom> atom = _createAtomFromBuf(cursor, atomSize);
+        atom->debugPrint();
         bool atomHasChildren = true;
         bool atomChildrenOffset = 8;
 
-        if (atomHasChildren)
+        if (atom->hasChildren())
         {
-            _loopThroughAtoms(cursor+atomChildrenOffset, atomSize, recurseLevel+1);
+            size_t childrenOffset = atom->getChildrenOffset();
+            _loopThroughAtoms(cursor + childrenOffset,
+                              atomSize,
+                              recurseLevel + 1);
         }
 
         cursor += atomSize;

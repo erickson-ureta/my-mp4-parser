@@ -25,10 +25,7 @@ class Mp4Parser
         std::string _getAtomName(const uint8_t *buf);
         bool _isValidMp4File();
         std::string _generateIndentStr(const unsigned int &recurseLevel);
-
         std::shared_ptr<GenericAtom> _createAtomFromBuf(uint8_t *buf, size_t bufSize);
-        //void _processAtom(bool &atomHasCHildren, unsigned int &atomChildrenOffset);
-        //void _processAtom(
         void _loopThroughAtoms(uint8_t *buf, const size_t bufSize,
                                const unsigned int &recurseLevel);
 

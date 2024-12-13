@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+#include "atoms.hpp"
 #include "constants.hpp"
 
 class GenericAtom
@@ -12,7 +13,6 @@ class GenericAtom
         GenericAtom(const std::string& atomName, size_t size, uint8_t *rawBuffer)
             : _mAtomName(atomName), _mSize(size), _mRawBuffer(rawBuffer)
         {
-            _parseRawBufIntoFields();
         }
 
         const size_t getSize()
@@ -35,6 +35,8 @@ class GenericAtom
             return _mChildrenOffset;
         }
 
+        virtual void debugPrint() = 0;
+
     protected:
         // Common fields across all atoms
         uint8_t version;
@@ -47,15 +49,19 @@ class GenericAtom
         size_t _mChildrenOffset = 0;
         uint8_t *_mRawBuffer;
 
-        virtual void _parseRawBufIntoFields();
-        virtual void _debugPrint();
+        virtual void _parseRawBufIntoFields() = 0;
 };
 
 class FtypAtom : public GenericAtom
 {
     public:
         FtypAtom(size_t size, uint8_t *rawBuffer)
-            : GenericAtom(ATOM_FTYP, size, rawBuffer) {}
+            : GenericAtom(ATOM_FTYP, size, rawBuffer)
+        {
+            _parseRawBufIntoFields();
+        }
+
+        void debugPrint() override;
 
     protected:
         uint32_t _mMajorBrand;
@@ -63,6 +69,5 @@ class FtypAtom : public GenericAtom
         std::vector<uint32_t> _mCompatibleBrands;
 
         void _parseRawBufIntoFields() override;
-        void _debugPrint() override;
 };
 
