@@ -71,6 +71,22 @@ Mp4Parser::_generateIndentStr(const unsigned int &recurseLevel)
     return ss.str();
 }
 
+std::shared_ptr<GenericAtom>
+Mp4Parser::_createAtomFromBuf(uint8_t *buf, size_t bufSize)
+{
+    if (!buf)
+    {
+        return nullptr;
+    }
+
+    std::string atomName = _getAtomName(buf);
+    //switch (atomName)
+    //{
+    //}
+
+    return nullptr;
+}
+
 void
 Mp4Parser::_loopThroughAtoms(uint8_t *buf, const size_t bufSize,
                              const unsigned int &recurseLevel)
@@ -86,9 +102,10 @@ Mp4Parser::_loopThroughAtoms(uint8_t *buf, const size_t bufSize,
         std::string indent = _generateIndentStr(recurseLevel);
         Logger::get().info("%s[%s] (%zu bytes)", indent.c_str(), atomName.c_str(), atomSize);
 
-        usleep(100000);
+        usleep(200000);
 
         // TODO: process atom here
+        std::shared_ptr<GenericAtom> atom = _createAtomFromBuf(cursor, atomSize);
         bool atomHasChildren = true;
         bool atomChildrenOffset = 8;
 

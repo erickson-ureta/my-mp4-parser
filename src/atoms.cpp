@@ -4,12 +4,6 @@
 #include "buffer_utils.hpp"
 #include "logger.hpp"
 
-const std::string
-GenericAtom::getAtomName()
-{
-    return _mAtomName;
-}
-
 void
 FtypAtom::_parseRawBufIntoFields()
 {

@@ -15,7 +15,25 @@ class GenericAtom
             _parseRawBufIntoFields();
         }
 
-        const std::string getAtomName();
+        const size_t getSize()
+        {
+            return _mSize;
+        }
+
+        const std::string getAtomName()
+        {
+            return _mAtomName;
+        }
+
+        const bool hasChildren()
+        {
+            return _mHasChildren;
+        }
+
+        const size_t getChildrenOffset()
+        {
+            return _mChildrenOffset;
+        }
 
     protected:
         // Common fields across all atoms
@@ -25,8 +43,8 @@ class GenericAtom
         // Metadata stuff
         const std::string _mAtomName;
         size_t _mSize;
-        bool _mHasChildren;
-        size_t _mChildrenOffset;
+        bool _mHasChildren = false;
+        size_t _mChildrenOffset = 0;
         uint8_t *_mRawBuffer;
 
         virtual void _parseRawBufIntoFields();
