@@ -56,7 +56,7 @@ Mp4Parser::_loadFile(const std::string& fileName)
 std::string
 Mp4Parser::_getAtomName(const uint8_t *buf)
 {
-    return BufferUtils::readBytesIntoStr(buf + ATOM_NAME_OFFSET,
+    return Utils::readBytesIntoStr(buf + ATOM_NAME_OFFSET,
                                          ATOM_NAME_LEN);
 }
 
@@ -81,9 +81,9 @@ Mp4Parser::_loopThroughAtoms(uint8_t *buf, const size_t bufSize,
     size_t cursorPos = 0;
     while (cursorPos < bufSize)
     {
-        size_t atomSize = static_cast<size_t>(BufferUtils::read4BytesIntoU32(cursor));
+        size_t atomSize = static_cast<size_t>(Utils::read4BytesIntoU32(cursor));
         std::string atomName = _getAtomName(cursor);
-        std::string indent = BufferUtils::generateIndentStr(recurseLevel);
+        std::string indent = Utils::generateIndentStr(recurseLevel);
         Logger::get().info("%s[%s] (%zu bytes)", indent.c_str(), atomName.c_str(), atomSize);
 
         usleep(200000);

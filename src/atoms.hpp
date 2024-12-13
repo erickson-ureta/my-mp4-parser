@@ -14,8 +14,9 @@ class GenericAtom
 {
     public:
         GenericAtom(const std::string& atomName, size_t size, uint8_t *rawBuffer)
-            : _mAtomName(atomName), _mSize(size), _mRawBuffer(rawBuffer)
+            : _mAtomName(atomName), _mSize(size)
         {
+            _mRawBuffer = std::vector<uint8_t>(rawBuffer, rawBuffer + size);
         }
 
         const size_t getSize()
@@ -55,14 +56,14 @@ class GenericAtom
         size_t _mSize;
         bool _mHasChildren = false;
         size_t _mChildrenOffset = 0;
-        uint8_t *_mRawBuffer;
+        std::vector<uint8_t> _mRawBuffer;
         unsigned int _mLogIndentLevel = 0;
 
         virtual void _parseRawBufIntoFields() = 0;
         template <typename ... Args>
         void _indentLog(const std::string &fmt, Args ... args)
         {
-            std::string indentStr = BufferUtils::generateIndentStr(_mLogIndentLevel);
+            std::string indentStr = Utils::generateIndentStr(_mLogIndentLevel);
 
             std::stringstream ss;
             ss << indentStr << fmt;

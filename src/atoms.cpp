@@ -7,17 +7,18 @@
 void
 FtypAtom::_parseRawBufIntoFields()
 {
-    uint8_t *cursor = _mRawBuffer;
+    uint8_t *cursor = _mRawBuffer.data();
 
     // Skip version/flags field
+    cursor += 8;
 
-    _mMajorBrand = BufferUtils::read4BytesIntoU32(cursor);
+    _mMajorBrand = Utils::read4BytesIntoU32(cursor);
     cursor += 4;
-    _mMinorVersion = BufferUtils::read4BytesIntoU32(cursor);
+    _mMinorVersion = Utils::read4BytesIntoU32(cursor);
     cursor += 4;
-    while (cursor < _mRawBuffer + _mSize)
+    while (cursor < _mRawBuffer.data() + _mSize)
     {
-        _mCompatibleBrands.push_back(BufferUtils::read4BytesIntoU32(cursor));
+        _mCompatibleBrands.push_back(Utils::read4BytesIntoU32(cursor));
         cursor += 4;
     }
 
@@ -28,12 +29,11 @@ FtypAtom::_parseRawBufIntoFields()
 void
 FtypAtom::debugPrint()
 {
-    //_indentLog("  major_brand = %u", static_cast<unsigned int>(_mMajorBrand));
-    _indentLog("  major_brand = %s", BufferUtils::u32BytesIntoStr(_mMajorBrand));
-    _indentLog("  minor_version = %u", static_cast<unsigned int>(_mMinorVersion));
+    _indentLog("  major_brand = %s", Utils::u32BytesIntoStr(_mMajorBrand).c_str());
+    _indentLog("  minor_version = %#x", static_cast<unsigned int>(_mMinorVersion));
     _indentLog("  compatible_brands = ");
     for (const auto &i : _mCompatibleBrands)
     {
-        _indentLog("    %u", static_cast<unsigned int>(i));
+        _indentLog("    %s", Utils::u32BytesIntoStr(i).c_str());
     }
 }
