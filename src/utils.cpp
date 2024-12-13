@@ -1,5 +1,18 @@
 #include <sstream>
-#include "buffer_utils.hpp"
+#include "utils.hpp"
+
+std::string
+BufferUtils::generateIndentStr(const unsigned int &indentLevel)
+{
+    std::stringstream ss;
+    for (auto i = 0; i < indentLevel; i++)
+    {
+        ss << "  ";
+    }
+
+    return ss.str();
+}
+
 
 uint32_t
 BufferUtils::read4BytesIntoU32(const uint8_t *buf)

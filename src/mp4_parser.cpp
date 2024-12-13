@@ -9,7 +9,7 @@
 #include "constants.hpp"
 #include "logger.hpp"
 #include "mp4_parser.hpp"
-#include "buffer_utils.hpp"
+#include "utils.hpp"
 
 Mp4Parser::Mp4Parser(const std::string& fileName)
     : _mFileName(fileName) {}
@@ -60,18 +60,6 @@ Mp4Parser::_getAtomName(const uint8_t *buf)
                                          ATOM_NAME_LEN);
 }
 
-std::string
-Mp4Parser::_generateIndentStr(const unsigned int &recurseLevel)
-{
-    std::stringstream ss;
-    for (auto i = 0; i < recurseLevel; i++)
-    {
-        ss << "  ";
-    }
-
-    return ss.str();
-}
-
 std::shared_ptr<GenericAtom>
 Mp4Parser::_createAtomFromBuf(uint8_t *buf, size_t bufSize)
 {
@@ -93,11 +81,9 @@ Mp4Parser::_loopThroughAtoms(uint8_t *buf, const size_t bufSize,
     size_t cursorPos = 0;
     while (cursorPos < bufSize)
     {
-        Logger::get().info("cursor_pos = %zu", cursorPos);
-
         size_t atomSize = static_cast<size_t>(BufferUtils::read4BytesIntoU32(cursor));
         std::string atomName = _getAtomName(cursor);
-        std::string indent = _generateIndentStr(recurseLevel);
+        std::string indent = BufferUtils::generateIndentStr(recurseLevel);
         Logger::get().info("%s[%s] (%zu bytes)", indent.c_str(), atomName.c_str(), atomSize);
 
         usleep(200000);

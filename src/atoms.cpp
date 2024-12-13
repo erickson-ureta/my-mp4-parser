@@ -1,7 +1,7 @@
 #include <string>
 
 #include "atoms.hpp"
-#include "buffer_utils.hpp"
+#include "utils.hpp"
 #include "logger.hpp"
 
 void
@@ -24,13 +24,14 @@ FtypAtom::_parseRawBufIntoFields()
 }
 
 void
-FtypAtom::debugPrint()
+FtypAtom::debugPrint(const unsigned int indentLevel)
 {
-    Logger::get().info("major_brand = %u", static_cast<unsigned int>(_mMajorBrand));
-    Logger::get().info("minor_version = %u", static_cast<unsigned int>(_mMinorVersion));
-    Logger::get().info("compatible_brands = ");
+    std::string indentStr = BufferUtils::generateIndentStr(indentLevel);
+    Logger::get().info("%s  major_brand = %u", indentStr.c_str(), static_cast<unsigned int>(_mMajorBrand));
+    Logger::get().info("%s  minor_version = %u", indentStr.c_str(), static_cast<unsigned int>(_mMinorVersion));
+    Logger::get().info("%s  compatible_brands = ", indentStr.c_str());
     for (const auto &i : _mCompatibleBrands)
     {
-        Logger::get().info("%u", static_cast<unsigned int>(i));
+        Logger::get().info("%s    %u", indentStr.c_str(), static_cast<unsigned int>(i));
     }
 }

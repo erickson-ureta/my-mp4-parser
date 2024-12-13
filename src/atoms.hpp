@@ -35,7 +35,7 @@ class GenericAtom
             return _mChildrenOffset;
         }
 
-        virtual void debugPrint() = 0;
+        virtual void debugPrint(const unsigned int indentLevel = 0) = 0;
 
     protected:
         // Common fields across all atoms
@@ -61,7 +61,7 @@ class FtypAtom : public GenericAtom
             _parseRawBufIntoFields();
         }
 
-        void debugPrint() override;
+        void debugPrint(const unsigned int indentLevel = 0) override;
 
     protected:
         uint32_t _mMajorBrand;
