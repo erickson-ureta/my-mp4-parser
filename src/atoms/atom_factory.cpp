@@ -4,8 +4,8 @@
 
 #include "atoms.hpp"
 #include "atom_factory.hpp"
-#include "constants.hpp"
-#include "logger.hpp"
+#include "../constants.hpp"
+#include "../logger.hpp"
 
 using AtomGenerator = std::function<std::shared_ptr<GenericAtom>(size_t, uint8_t*)>;
 

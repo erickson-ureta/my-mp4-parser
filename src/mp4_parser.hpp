@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "atoms.hpp"
+#include "atoms/atoms.hpp"
 #include "constants.hpp"
 
 class Mp4Parser

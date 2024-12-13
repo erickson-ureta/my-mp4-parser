@@ -5,7 +5,7 @@
 
 #include <unistd.h>
 
-#include "atom_factory.hpp"
+#include "atoms/atom_factory.hpp"
 #include "constants.hpp"
 #include "logger.hpp"
 #include "mp4_parser.hpp"

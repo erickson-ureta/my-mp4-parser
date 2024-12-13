@@ -6,4 +6,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 file(GLOB_RECURSE SRC_FILES src/*.cpp src/*.hpp)
 
-add_executable(my_mp4_parser ${SRC_FILES})
+include_directories(${CMAKE_SOURCE_DIR}/src)
+
+add_executable(${PROJECT_NAME} ${SRC_FILES})

@@ -6,9 +6,9 @@
 #include <vector>
 
 #include "atoms.hpp"
-#include "constants.hpp"
-#include "logger.hpp"
-#include "utils.hpp"
+#include "../constants.hpp"
+#include "../logger.hpp"
+#include "../utils.hpp"
 
 class GenericAtom
 {
