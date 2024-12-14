@@ -31,10 +31,6 @@ class FtypAtom : public GenericAtom
         {
             uint8_t *cursor = _mRawBuffer.data();
 
-            Utils::printBufAsHex(_mRawBuffer, _mSize);
-            std::string dbg = Utils::u32BytesIntoStr(Utils::read4BytesIntoU32(cursor+4));
-            std::cout << "dbg = " << dbg << std::endl;
-
             // Skip size and boxtype fields
             cursor += 8;
 
