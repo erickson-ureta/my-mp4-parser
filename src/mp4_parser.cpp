@@ -103,10 +103,6 @@ Mp4Parser::_loopThroughAtoms(uint8_t *buf, const size_t bufSize,
                                   recurseLevel + 1);
             }
         }
-        else
-        {
-            Logger::get().info("%s  (atom not recognized or not yet implemented)", indent.c_str());
-        }
 
         cursor += atomSize;
         cursorPos += atomSize;

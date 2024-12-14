@@ -9,6 +9,8 @@
 #include "../logger.hpp"
 #include "../utils.hpp"
 
+#define DATA_START_OFFSET ATOM_NAME_OFFSET+ATOM_NAME_LEN
+
 class GenericAtom
 {
     public:
@@ -16,6 +18,8 @@ class GenericAtom
             : _mAtomName(atomName), _mSize(size)
         {
             _mRawBuffer = std::vector<uint8_t>(rawBuffer, rawBuffer + size);
+            _mVersion = _mRawBuffer[DATA_START_OFFSET];
+            _mFlags = Utils::read3BytesIntoU32(_mRawBuffer.data() + DATA_START_OFFSET + 1);
         }
 
         const size_t getSize()
@@ -43,18 +47,23 @@ class GenericAtom
             _mLogIndentLevel = indentLevel;
         }
 
+        const unsigned int getLogIndentLevel()
+        {
+            return _mLogIndentLevel;
+        }
+
         virtual void debugPrint() {}
 
     protected:
         // Common fields across all atoms
-        uint8_t version;
-        // TODO: figure out what to do with the "flags" field later
+        uint8_t _mVersion = 0;
+        uint32_t _mFlags = 0; // 24 bits of information stored in a 32-bit uint
 
         // Metadata stuff fields
         const std::string _mAtomName = "";
         size_t _mSize;
         bool _mHasChildren = false;
-        size_t _mChildrenOffset = ATOM_NAME_OFFSET + ATOM_NAME_LEN;
+        size_t _mChildrenOffset = DATA_START_OFFSET;
         std::vector<uint8_t> _mRawBuffer;
         unsigned int _mLogIndentLevel = 0;
 

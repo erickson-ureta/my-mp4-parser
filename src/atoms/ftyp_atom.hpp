@@ -31,7 +31,11 @@ class FtypAtom : public GenericAtom
         {
             uint8_t *cursor = _mRawBuffer.data();
 
-            // Skip version/flags field
+            Utils::printBufAsHex(_mRawBuffer, _mSize);
+            std::string dbg = Utils::u32BytesIntoStr(Utils::read4BytesIntoU32(cursor+4));
+            std::cout << "dbg = " << dbg << std::endl;
+
+            // Skip size and boxtype fields
             cursor += 8;
 
             _mMajorBrand = Utils::read4BytesIntoU32(cursor);
@@ -43,8 +47,5 @@ class FtypAtom : public GenericAtom
                 _mCompatibleBrands.push_back(Utils::read4BytesIntoU32(cursor));
                 cursor += 4;
             }
-
-            _mHasChildren = false;
-            _mChildrenOffset = 0;
         }
 };

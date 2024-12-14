@@ -17,12 +17,37 @@ Utils::generateIndentStr(const unsigned int &indentLevel)
 }
 
 uint32_t
+Utils::read3BytesIntoU32(const uint8_t *buf)
+{
+    uint32_t result = 0;
+
+    result |= static_cast<uint32_t>(*buf) << 16;
+    result |= static_cast<uint32_t>(*buf+1) << 8;
+    result |= static_cast<uint32_t>(*buf+2);
+
+    return result;
+}
+
+uint32_t
 Utils::read4BytesIntoU32(const uint8_t *buf)
 {
     return (static_cast<uint32_t>(*buf) << 24) |
            (static_cast<uint32_t>(*(buf+1)) << 16) |
            (static_cast<uint32_t>(*(buf+2)) << 8) |
            (static_cast<uint32_t>(*(buf+3)));
+}
+
+uint64_t
+Utils::read8BytesIntoU64(const uint8_t *buf)
+{
+    return (static_cast<uint64_t>(*buf) << 56) |
+           (static_cast<uint64_t>(*(buf+1)) << 48) |
+           (static_cast<uint64_t>(*(buf+2)) << 40) |
+           (static_cast<uint64_t>(*(buf+3)) << 32) |
+           (static_cast<uint64_t>(*(buf+4)) << 24) |
+           (static_cast<uint64_t>(*(buf+5)) << 16) |
+           (static_cast<uint64_t>(*(buf+6)) << 8) |
+           (static_cast<uint64_t>(*(buf+7)));
 }
 
 std::string
