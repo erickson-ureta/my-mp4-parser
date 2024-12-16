@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
+enable_testing()
+
 add_subdirectory(src)
 add_subdirectory(test)
-add_subdirectory(lib/googletest)
+add_subdirectory(googletest)
