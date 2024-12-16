@@ -23,13 +23,13 @@ cmake -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles" ..
 make all
 ```
 
-The main executable can be found as `<projectroot>/build/src/my_mp4_parser`.
-The unit test executable can be found as `<projectroot>/build/test/my_mp4_parser/test`.
+The main executable can be found in `build/src/my_mp4_parser`.
+The unit test executable can be found as `build/test/my_mp4_parser/test`.
 
 Alternatively, you can use the script file `build_test_run.sh` in the root
 directory of this project, as it already does the steps mentioned above, while
 also running unit tests, and running the main executable on the test mp4 file
-(`<projectroot>/media/brandon.mp4`).
+`media/brandon.mp4`.
 
 ## Usage
 
