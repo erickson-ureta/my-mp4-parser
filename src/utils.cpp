@@ -19,13 +19,10 @@ Utils::generateIndentStr(const unsigned int &indentLevel)
 uint32_t
 Utils::read3BytesIntoU32(const uint8_t *buf)
 {
-    uint32_t result = 0;
-
-    result |= static_cast<uint32_t>(*buf) << 16;
-    result |= static_cast<uint32_t>(*buf+1) << 8;
-    result |= static_cast<uint32_t>(*buf+2);
-
-    return result;
+    return 0 |
+           (static_cast<uint32_t>(*(buf)) << 16) |
+           (static_cast<uint32_t>(*(buf+1)) << 8) |
+           (static_cast<uint32_t>(*(buf+2)));
 }
 
 uint32_t
