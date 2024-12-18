@@ -22,15 +22,29 @@ class GenericAtom
             _mFlags = Utils::read3BytesIntoU32(_mRawBuffer.data() + DATA_START_OFFSET + 1);
         }
 
-        const size_t getSize()
-        {
-            return _mSize;
-        }
+        // ====== Fields defined in the ISO 14496-12 standard =======
 
         const std::string getAtomName()
         {
             return _mAtomName;
         }
+
+        const size_t getSize()
+        {
+            return _mSize;
+        }
+
+        const uint8_t getVersion()
+        {
+            return _mVersion;
+        }
+
+        const uint8_t getFlags()
+        {
+            return _mFlags;
+        }
+
+        // ====== Relevant only to the parser ======
 
         const bool hasChildren()
         {
@@ -55,13 +69,13 @@ class GenericAtom
         virtual void debugPrint() {}
 
     protected:
-        // Common fields across all atoms
+        // ====== Fields defined in the ISO 14496-12 standard =======
+        const std::string _mAtomName = "";
+        const size_t _mSize;
         uint8_t _mVersion = 0;
         uint32_t _mFlags = 0; // 24 bits of information stored in a 32-bit uint
 
-        // Metadata stuff fields
-        const std::string _mAtomName = "";
-        size_t _mSize;
+        // ====== Relevant only to the parser ======
         bool _mHasChildren = false;
         size_t _mChildrenOffset = DATA_START_OFFSET;
         std::vector<uint8_t> _mRawBuffer;

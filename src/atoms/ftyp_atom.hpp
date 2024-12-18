@@ -22,6 +22,21 @@ class FtypAtom : public GenericAtom
             }
         }
 
+        const uint32_t getMajorBrand()
+        {
+            return _mMajorBrand;
+        }
+
+        const uint32_t getMinorVersion()
+        {
+            return _mMinorVersion;
+        }
+
+        const std::vector<uint32_t> getCompatibleBrands()
+        {
+            return _mCompatibleBrands;
+        }
+
     protected:
         uint32_t _mMajorBrand;
         uint32_t _mMinorVersion;

@@ -29,9 +29,9 @@ echo ${PWD}
 ./my_mp4_parser_test || print_err_and_exit "Unit testing failed!"
 echo ""
 
-echo "==========================================="
-echo "Running main program"
-popd > /dev/null
-pushd src > /dev/null
-echo ""
-./my_mp4_parser ${ROOT_DIR}/media/brandon.mp4
+#echo "==========================================="
+#echo "Running main program"
+#popd > /dev/null
+#pushd src > /dev/null
+#echo ""
+#./my_mp4_parser ${ROOT_DIR}/media/brandon.mp4
