@@ -42,14 +42,16 @@ class Logger
 
         static Logger& get();
 
+        const LoggerLevel getLogLevel();
         void setLogLevel(const LoggerLevel& logLevel);
+        void setOutputStream(std::ostream &output);
 
         template <typename ... Args>
         void error(const std::string &fmt, Args ... args)
         {
             if (_mLogLevel < LoggerLevel::ERROR) return;
 
-            std::cerr << "[ERROR]: " << string_format(fmt, args...) << std::endl;
+            (*_mLogOutput) << "[ERROR]: " << string_format(fmt, args...) << std::endl;
         }
 
         template <typename ... Args>
@@ -57,7 +59,7 @@ class Logger
         {
             if (_mLogLevel < LoggerLevel::INFO) return;
 
-            std::cout << "[INFO]: " << string_format(fmt, args...) << std::endl;
+            (*_mLogOutput) << "[INFO]: " << string_format(fmt, args...) << std::endl;
         }
 
         template <typename ... Args>
@@ -65,12 +67,12 @@ class Logger
         {
             if (_mLogLevel < LoggerLevel::DEBUG) return;
 
-            std::cout << "[DEBUG]: " << string_format(fmt, args...) << std::endl;
+            (*_mLogOutput) << "[DEBUG]: " << string_format(fmt, args...) << std::endl;
         }
 
     private:
         LoggerLevel _mLogLevel = LoggerLevel::INFO;
-
+        std::ostream *_mLogOutput;
         static Logger _inst;
 
         // Private constructor for singleton
