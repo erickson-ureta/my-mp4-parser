@@ -48,7 +48,7 @@ class GenericAtom
 
         const bool hasChildren()
         {
-            return _mHasChildren;
+            return _mChildren.size() > 0;
         }
 
         const size_t getChildrenOffset()
@@ -66,7 +66,10 @@ class GenericAtom
             return _mLogIndentLevel;
         }
 
-        virtual void debugPrint() {}
+        virtual void debugPrint()
+        {
+            _printAtomNameAndSize();
+        }
 
     protected:
         // ====== Fields defined in the ISO 14496-12 standard =======
@@ -76,7 +79,7 @@ class GenericAtom
         uint32_t _mFlags = 0; // 24 bits of information stored in a 32-bit uint
 
         // ====== Relevant only to the parser ======
-        bool _mHasChildren = false;
+        std::vector<std::shared_ptr<GenericAtom>> _mChildren;
         size_t _mChildrenOffset = DATA_START_OFFSET;
         std::vector<uint8_t> _mRawBuffer;
         unsigned int _mLogIndentLevel = 0;
@@ -90,5 +93,10 @@ class GenericAtom
             ss << indentStr << fmt;
 
             Logger::get().info(ss.str(), args ...);
+        }
+
+        void _printAtomNameAndSize()
+        {
+            _indentLog("[%s] (%zu bytes)", _mAtomName.c_str(), _mSize);
         }
 };

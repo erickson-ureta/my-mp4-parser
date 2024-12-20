@@ -30,6 +30,10 @@ Mp4Parser::parseMp4File()
 
     std::vector<std::shared_ptr<GenericAtom>> atoms =
         AtomFactory::createAtomsFromBuf(_mBuffer);
+    for (auto &atom: atoms)
+    {
+        atom->debugPrint();
+    }
 
     return true;
 }
@@ -53,42 +57,6 @@ Mp4Parser::_loadFile(const std::string& fileName)
 
     return true;
 }
-
-//void
-//Mp4Parser::_loopThroughAtoms(uint8_t *buf, const size_t bufSize,
-//                             const unsigned int &recurseLevel)
-//{
-//    std::string indent = Utils::generateIndentStr(recurseLevel);
-//
-//    uint8_t *cursor = buf;
-//    size_t cursorPos = 0;
-//
-//    while (cursorPos < bufSize)
-//    {
-//        size_t atomSize = static_cast<size_t>(Utils::read4BytesIntoU32(cursor));
-//        std::string atomName = _getAtomName(cursor);
-//
-//        Logger::get().info("%s[%s] (%zu bytes)", indent.c_str(), atomName.c_str(), atomSize);
-//
-//        std::shared_ptr<GenericAtom> atom = _createAtomFromBuf(cursor, atomSize);
-//        if (atom)
-//        {
-//            atom->setLogIndentLevel(recurseLevel);
-//            atom->debugPrint();
-//
-//            if (atom->hasChildren())
-//            {
-//                size_t childrenOffset = atom->getChildrenOffset();
-//                _loopThroughAtoms(cursor + childrenOffset,
-//                                  atomSize - childrenOffset,
-//                                  recurseLevel + 1);
-//            }
-//        }
-//
-//        cursor += atomSize;
-//        cursorPos += atomSize;
-//    }
-//}
 
 bool
 Mp4Parser::_isValidMp4File()

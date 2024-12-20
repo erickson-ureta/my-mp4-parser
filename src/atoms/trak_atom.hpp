@@ -14,7 +14,7 @@ class TrakAtom : public GenericAtom
     protected:
         void _parseRawBufIntoFields()
         {
-            _mHasChildren = true;
+            //_mHasChildren = true;
             _mChildrenOffset = 8;
         }
 };

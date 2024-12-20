@@ -11,8 +11,9 @@ class FtypAtom : public GenericAtom
             _parseRawBufIntoFields();
         }
 
-        void debugPrint()
+        void debugPrint() override
         {
+            _printAtomNameAndSize();
             _indentLog("  major_brand = %s", Utils::u32BytesIntoStr(_mMajorBrand).c_str());
             _indentLog("  minor_version = %#x", static_cast<unsigned int>(_mMinorVersion));
             _indentLog("  compatible_brands = ");

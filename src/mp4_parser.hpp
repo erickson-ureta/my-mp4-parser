@@ -23,7 +23,5 @@ class Mp4Parser
         // Helper methods
         bool _loadFile(const std::string& fileName);
         bool _isValidMp4File();
-        void _loopThroughAtoms(uint8_t *buf, const size_t bufSize,
-                               const unsigned int &recurseLevel);
 
 };

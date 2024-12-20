@@ -85,13 +85,11 @@ AtomFactory::createAtomsFromBuf(std::vector<uint8_t> &buf)
             break;
         }
 
-        Logger::get().info("[%s] (%zu bytes)", atomName.c_str(), atomSize);
-
         std::shared_ptr<GenericAtom> atom = createAtom(atomName, cursor, atomSize);
         if (atom)
         {
             //atom->setLogIndentLevel(recurseLevel);
-            atom->debugPrint();
+            //atom->debugPrint();
 
             //if (atom->hasChildren())
             //{
