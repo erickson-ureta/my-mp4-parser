@@ -46,9 +46,14 @@ class GenericAtom
 
         // ====== Relevant only to the parser ======
 
-        const bool hasChildren()
+        virtual const bool hasChildren()
         {
-            return _mChildren.size() > 0;
+            return false;
+        }
+
+        void setChildrenAtoms(std::vector<std::shared_ptr<GenericAtom>> childrenAtoms)
+        {
+            _mChildren = childrenAtoms;
         }
 
         const size_t getChildrenOffset()
@@ -69,6 +74,10 @@ class GenericAtom
         virtual void debugPrint()
         {
             _printAtomNameAndSize();
+            for (const auto &child: _mChildren)
+            {
+                child->debugPrint();
+            }
         }
 
     protected:

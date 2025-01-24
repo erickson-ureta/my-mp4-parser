@@ -71,7 +71,7 @@ AtomFactory::createAtom(const std::string &atomName, uint8_t *buf, size_t bufSiz
 }
 
 std::vector<std::shared_ptr<GenericAtom>>
-AtomFactory::createAtomsFromBuf(std::vector<uint8_t> &buf)
+AtomFactory::createAtomsFromBuf(std::vector<uint8_t> &buf, unsigned int recurseLevel)
 {
     std::vector<std::shared_ptr<GenericAtom>> atoms;
 
@@ -88,15 +88,20 @@ AtomFactory::createAtomsFromBuf(std::vector<uint8_t> &buf)
         std::shared_ptr<GenericAtom> atom = createAtom(atomName, cursor, atomSize);
         if (atom)
         {
-            //atom->setLogIndentLevel(recurseLevel);
+            atom->setLogIndentLevel(recurseLevel);
             //atom->debugPrint();
 
+            size_t childrenOffset = atom->getChildrenOffset();
+            uint8_t *childCursor = cursor + childrenOffset;
+            std::vector<uint8_t> childrenBuffer(childCursor, childCursor + atomSize - childrenOffset);
+            auto childAtoms = AtomFactory::createAtomsFromBuf(childrenBuffer, recurseLevel+1);
+            atom->setChildrenAtoms(childAtoms);
             //if (atom->hasChildren())
             //{
             //    size_t childrenOffset = atom->getChildrenOffset();
-            //    _loopThroughAtoms(cursor + childrenOffset,
-            //                      atomSize - childrenOffset,
-            //                      recurseLevel + 1);
+            //    uint8_t *childCursor = cursor + childrenOffset;
+            //    std::vector<uint8_t> childrenBuffer(childCursor, childCursor + atomSize - childrenOffset);
+            //    auto asd = AtomFactory::createAtomsFromBuf(childrenBuffer, recurseLevel+1);
             //}
 
             atoms.push_back(atom);

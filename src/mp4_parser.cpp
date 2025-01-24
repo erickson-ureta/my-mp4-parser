@@ -29,7 +29,7 @@ Mp4Parser::parseMp4File()
     }
 
     std::vector<std::shared_ptr<GenericAtom>> atoms =
-        AtomFactory::createAtomsFromBuf(_mBuffer);
+        AtomFactory::createAtomsFromBuf(_mBuffer, 0);
     for (auto &atom: atoms)
     {
         atom->debugPrint();
