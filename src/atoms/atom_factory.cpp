@@ -89,21 +89,12 @@ AtomFactory::createAtomsFromBuf(std::vector<uint8_t> &buf, unsigned int recurseL
         if (atom)
         {
             atom->setLogIndentLevel(recurseLevel);
-            //atom->debugPrint();
 
             size_t childrenOffset = atom->getChildrenOffset();
             uint8_t *childCursor = cursor + childrenOffset;
             std::vector<uint8_t> childrenBuffer(childCursor, childCursor + atomSize - childrenOffset);
             auto childAtoms = AtomFactory::createAtomsFromBuf(childrenBuffer, recurseLevel+1);
             atom->setChildrenAtoms(childAtoms);
-            //if (atom->hasChildren())
-            //{
-            //    size_t childrenOffset = atom->getChildrenOffset();
-            //    uint8_t *childCursor = cursor + childrenOffset;
-            //    std::vector<uint8_t> childrenBuffer(childCursor, childCursor + atomSize - childrenOffset);
-            //    auto asd = AtomFactory::createAtomsFromBuf(childrenBuffer, recurseLevel+1);
-            //}
-
             atoms.push_back(atom);
         }
 

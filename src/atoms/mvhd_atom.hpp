@@ -11,8 +11,9 @@ class MvhdAtom : public GenericAtom
             _parseRawBufIntoFields();
         }
 
-        void debugPrint()
+        void debugPrint() override
         {
+            _printAtomNameAndSize();
             _indentLog("  version = %u", static_cast<unsigned int>(_mVersion));
             unsigned int creationTime =
                 static_cast<unsigned int>((_mVersion == 1) ? _mCreationTimeV1 : _mCreationTime);

@@ -57,8 +57,9 @@ class SgpdAtom : public GenericAtom
             _parseRawBufIntoFields();
         }
 
-        void debugPrint()
+        void debugPrint() override
         {
+            _printAtomNameAndSize();
             _indentLog("  version = %u", static_cast<unsigned int>(_mVersion));
             _indentLog("  grouping_type = %s", Utils::u32BytesIntoStr(_mGroupingType).c_str());
             if (_mVersion == 1)

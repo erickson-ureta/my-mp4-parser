@@ -11,11 +11,6 @@ class FtypAtom : public GenericAtom
             _parseRawBufIntoFields();
         }
 
-        const bool hasChildren() override
-        {
-            return true;
-        }
-
         void debugPrint() override
         {
             _printAtomNameAndSize();

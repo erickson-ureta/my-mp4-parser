@@ -14,7 +14,6 @@ class MinfAtom : public GenericAtom
     protected:
         void _parseRawBufIntoFields()
         {
-            //_mHasChildren = true;
             _mChildrenOffset = 8;
         }
 };

@@ -46,11 +46,6 @@ class GenericAtom
 
         // ====== Relevant only to the parser ======
 
-        virtual const bool hasChildren()
-        {
-            return false;
-        }
-
         void setChildrenAtoms(std::vector<std::shared_ptr<GenericAtom>> childrenAtoms)
         {
             _mChildren = childrenAtoms;
