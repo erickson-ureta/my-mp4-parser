@@ -3,7 +3,7 @@
 ## About
 
 This is a small program that parses media files using the ISO Base Media File
-Format (ISOBMFF), and displaying their metadata to the console. MPEG-4 (or MP4)
+Format (ISOBMFF, ISO/IEC 14496-12), and displaying their metadata to the console. MPEG-4 (or MP4)
 is just another name for the ISO standard implementing ISOBMFF.
 
 This is just a little sideproject that basically reimplements already-existing
